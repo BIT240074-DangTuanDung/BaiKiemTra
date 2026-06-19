@@ -1,0 +1,36 @@
+@model BaiKiemTra.Models.EventImage_BIT240074
+
+@{
+    ViewData["Title"] = "Chi tiết hình ảnh";
+}
+
+<h1 class="mb-4">Chi tiết hình ảnh</h1>
+
+<div>
+    <img src="@Model.ImageUrl" alt="Event" class="img-fluid mb-3" />
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Id)</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.Id)</dd>
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.ImageUrl)</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.ImageUrl)</dd>
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.IsThumbnail)</dt>
+        <dd class="col-sm-10">
+            @if (Model.IsThumbnail)
+            {
+                <span class="badge bg-primary">Có</span>
+            }
+            else
+            {
+                <span>Không</span>
+            }
+        </dd>
+        <dt class="col-sm-2">Sự kiện</dt>
+        <dd class="col-sm-10">@Model.Event_BIT240074?.Name</dd>
+    </dl>
+</div>
+
+<div class="mt-3">
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Sửa</a>
+    <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+</div>

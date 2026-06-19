@@ -1,0 +1,139 @@
+@model BaiKiemTra.Models.PagedList<BaiKiemTra.Models.Event_BIT240074>
+
+@{
+    ViewData["Title"] = "Sự Kiện";
+    var currentCategory = ViewData["CurrentCategory"] as int?;
+    var currentDateFrom = ViewData["CurrentDateFrom"] as DateTime?;
+    var currentDateTo = ViewData["CurrentDateTo"] as DateTime?;
+}
+
+<h1 class="mb-4">Sự Kiện</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Tạo mới</a>
+</p>
+
+<form asp-action="Index" method="get" class="mb-4">
+    <div class="row mb-3">
+        <div class="col-md-3">
+            <input type="text" name="searchString" placeholder="Tìm kiếm tên hoặc địa điểm" class="form-control" value="@ViewData["CurrentFilter"]" />
+        </div>
+        <div class="col-md-2">
+            <select name="categoryId" class="form-select">
+                <option value="">Tất cả loại</option>
+                @foreach (var cat in ViewBag.Categories)
+                {
+                    var isSelected = currentCategory.HasValue && currentCategory.Value == cat.Id;
+                    <option value="@cat.Id" selected="@isSelected">@cat.Name</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-2">
+            <input type="date" name="startDateFrom" class="form-control" value="@(currentDateFrom.HasValue ? currentDateFrom.Value.ToString("yyyy-MM-dd") : "")" />
+        </div>
+        <div class="col-md-2">
+            <input type="date" name="startDateTo" class="form-control" value="@(currentDateTo.HasValue ? currentDateTo.Value.ToString("yyyy-MM-dd") : "")" />
+        </div>
+        <div class="col-md-3">
+            <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+            <a asp-action="Index" class="btn btn-secondary">Đặt lại</a>
+        </div>
+    </div>
+</form>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParam"]" asp-route-searchString="@ViewData["CurrentFilter"]" asp-route-categoryId="@ViewData["CurrentCategory"]" asp-route-startDateFrom="@ViewData["CurrentDateFrom"]" asp-route-startDateTo="@ViewData["CurrentDateTo"]" asp-route-pageIndex="@Model.PageIndex">
+                    Tên sự kiện
+                </a>
+            </th>
+            <th>Giá</th>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParam"]" asp-route-searchString="@ViewData["CurrentFilter"]" asp-route-categoryId="@ViewData["CurrentCategory"]" asp-route-startDateFrom="@ViewData["CurrentDateFrom"]" asp-route-startDateTo="@ViewData["CurrentDateTo"]" asp-route-pageIndex="@Model.PageIndex">
+                    Ngày bắt đầu
+                </a>
+            </th>
+            <th>Ngày kết thúc</th>
+            <th>Địa điểm</th>
+            <th>Loại sự kiện</th>
+            <th>Trạng thái</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Items)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                <td>@item.Price.ToString("N0") VNĐ</td>
+                <td>@Html.DisplayFor(modelItem => item.StartDate)</td>
+                <td>@Html.DisplayFor(modelItem => item.EndDate)</td>
+                <td>@Html.DisplayFor(modelItem => item.Location)</td>
+                <td>@item.EventCategory_BIT240074?.Name</td>
+                <td><span class="badge @(item.Status == "Sắp diễn ra" ? "bg-info" : item.Status == "Đang diễn ra" ? "bg-success" : "bg-secondary")">@item.Status</span></td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">Xem</a>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Sửa</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Xóa</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Pagination -->
+<nav aria-label="Page navigation">
+    <ul class="pagination">
+        @if (Model.HasPreviousPage)
+        {
+            <li class="page-item">
+                <a class="page-link" asp-action="Index" 
+                   asp-route-sortOrder="@ViewData["NameSortParam"]"
+                   asp-route-searchString="@ViewData["CurrentFilter"]"
+                   asp-route-categoryId="@ViewData["CurrentCategory"]"
+                   asp-route-startDateFrom="@ViewData["CurrentDateFrom"]"
+                   asp-route-startDateTo="@ViewData["CurrentDateTo"]"
+                   asp-route-pageIndex="@(Model.PageIndex - 1)">
+                    Trước
+                </a>
+            </li>
+        }
+        else
+        {
+            <li class="page-item disabled">
+                <span class="page-link">Trước</span>
+            </li>
+        }
+
+        <li class="page-item disabled">
+            <span class="page-link">Trang @Model.PageIndex / @Model.TotalPages (Tổng: @Model.TotalCount)</span>
+        </li>
+
+        @if (Model.HasNextPage)
+        {
+            <li class="page-item">
+                <a class="page-link" asp-action="Index" 
+                   asp-route-sortOrder="@ViewData["NameSortParam"]"
+                   asp-route-searchString="@ViewData["CurrentFilter"]"
+                   asp-route-categoryId="@ViewData["CurrentCategory"]"
+                   asp-route-startDateFrom="@ViewData["CurrentDateFrom"]"
+                   asp-route-startDateTo="@ViewData["CurrentDateTo"]"
+                   asp-route-pageIndex="@(Model.PageIndex + 1)">
+                    Sau
+                </a>
+            </li>
+        }
+        else
+        {
+            <li class="page-item disabled">
+                <span class="page-link">Sau</span>
+            </li>
+        }
+    </ul>
+</nav>
+
+<div>
+    <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Trang chủ</a>
+</div>

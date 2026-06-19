@@ -1,0 +1,58 @@
+@model BaiKiemTra.Models.Event_BIT240074
+
+@{
+    ViewData["Title"] = "Chi tiết sự kiện";
+}
+
+<h1 class="mb-4">Chi tiết sự kiện</h1>
+
+<div>
+    <h4>@Model.Name</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Id)</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.Id)</dd>
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Price)</dt>
+        <dd class="col-sm-10">@Model.Price.ToString("N0") VNĐ</dd>
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.StartDate)</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.StartDate)</dd>
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.EndDate)</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.EndDate)</dd>
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Location)</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.Location)</dd>
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Description)</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.Description)</dd>
+        <dt class="col-sm-2">Trạng thái</dt>
+        <dd class="col-sm-10"><span class="badge @(Model.Status == "Sắp diễn ra" ? "bg-info" : Model.Status == "Đang diễn ra" ? "bg-success" : "bg-secondary")">@Model.Status</span></dd>
+    </dl>
+
+    <h5 class="mt-4">Hình ảnh</h5>
+    @if (Model.EventImages_BIT240074.Any())
+    {
+        <div class="row">
+            @foreach (var img in Model.EventImages_BIT240074)
+            {
+                <div class="col-md-3 mb-3">
+                    <div class="card">
+                        <img src="@img.ImageUrl" class="card-img-top" alt="Event Image" />
+                        <div class="card-body">
+                            @if (img.IsThumbnail)
+                            {
+                                <span class="badge bg-primary">Thumbnail</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <p>Chưa có hình ảnh</p>
+    }
+</div>
+
+<div class="mt-3">
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Sửa</a>
+    <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+</div>

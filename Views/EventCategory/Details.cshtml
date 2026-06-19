@@ -1,0 +1,38 @@
+@model BaiKiemTra.Models.EventCategory_BIT240074
+
+@{
+    ViewData["Title"] = "Chi tiết loại sự kiện";
+}
+
+<h1 class="mb-4">Chi tiết loại sự kiện</h1>
+
+<div>
+    <h4>@Model.Name</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Id)</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.Id)</dd>
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Description)</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.Description)</dd>
+    </dl>
+
+    <h5 class="mt-4">Sự kiện thuộc loại này</h5>
+    @if (Model.Events_BIT240074.Any())
+    {
+        <ul>
+            @foreach (var evt in Model.Events_BIT240074)
+            {
+                <li>@evt.Name</li>
+            }
+        </ul>
+    }
+    else
+    {
+        <p>Chưa có sự kiện nào</p>
+    }
+</div>
+
+<div class="mt-3">
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Sửa</a>
+    <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+</div>

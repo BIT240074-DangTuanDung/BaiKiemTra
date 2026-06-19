@@ -1,0 +1,52 @@
+@model IEnumerable<BaiKiemTra.Models.EventImage_BIT240074>
+
+@{
+    ViewData["Title"] = "Hình ảnh sự kiện";
+}
+
+<h1 class="mb-4">Hình ảnh sự kiện</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Tạo mới</a>
+</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Hình ảnh</th>
+            <th>@Html.DisplayNameFor(model => model.ImageUrl)</th>
+            <th>@Html.DisplayNameFor(model => model.IsThumbnail)</th>
+            <th>Sự kiện</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td><img src="@item.ImageUrl" alt="Image" style="height:50px;" /></td>
+                <td>@Html.DisplayFor(modelItem => item.ImageUrl)</td>
+                <td>
+                    @if (item.IsThumbnail)
+                    {
+                        <span class="badge bg-primary">Có</span>
+                    }
+                    else
+                    {
+                        <span>Không</span>
+                    }
+                </td>
+                <td>@item.Event_BIT240074?.Name</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">Xem</a>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Sửa</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Xóa</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div>
+    <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Trang chủ</a>
+</div>

@@ -1,0 +1,23 @@
+@model BaiKiemTra.Models.EventImage_BIT240074
+
+@{
+    ViewData["Title"] = "Xóa hình ảnh";
+}
+
+<h1 class="mb-4">Xóa hình ảnh</h1>
+
+<h3 class="text-danger">Bạn có chắc chắn muốn xóa hình ảnh này?</h3>
+<div>
+    <hr />
+    <img src="@Model.ImageUrl" alt="Event" class="img-fluid mb-3" style="max-height: 200px;" />
+    <dl class="row">
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.ImageUrl)</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.ImageUrl)</dd>
+    </dl>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Xóa" class="btn btn-danger" />
+        <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+    </form>
+</div>
